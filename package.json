@@ -1,0 +1,43 @@
+{
+  "name": "@ventipay/cli",
+  "version": "1.0.0",
+  "description": "Official Venti CLI to access the REST API from the command line",
+  "bin": {
+    "venti": "bin/venti.js"
+  },
+  "main": "src/cli.js",
+  "repository": "https://github.com/ventipay/ventipay-cli.git",
+  "homepage": "https://ventipay.com/",
+  "bugs": {
+    "url": "https://github.com/ventipay/ventipay-cli/issues"
+  },
+  "author": "Venti <help@ventipay.com> (https://ventipay.com)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "lint": "eslint bin src",
+    "venti": "node bin/venti.js"
+  },
+  "dependencies": {
+    "axios": "1.16.1"
+  },
+  "devDependencies": {
+    "eslint": "8.41.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.27.5"
+  },
+  "keywords": [
+    "venti",
+    "ventipay",
+    "cli",
+    "payments"
+  ]
+}
