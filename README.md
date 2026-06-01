@@ -26,7 +26,7 @@ The CLI uses your API key, just like the API and the SDK. You can get one in the
 # Option A: environment variable
 export VENTIPAY_API_KEY="key_test_..."
 
-# Option B: store it in the config file (~/.config/ventipay/config.json, mode 0600)
+# Option B: store it in the config file (~/.ventipay/config.json, mode 0600)
 venti config set api_key key_test_...
 ```
 

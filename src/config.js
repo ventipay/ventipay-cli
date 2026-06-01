@@ -13,8 +13,7 @@ const DEFAULT_SCHEMA = 'https:';
 const CONFIG_KEYS = ['api_key', 'host', 'port', 'base_path', 'schema'];
 
 function configDir() {
-  const base = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
-  return path.join(base, 'ventipay');
+  return path.join(os.homedir(), '.ventipay');
 }
 
 function configPath() {

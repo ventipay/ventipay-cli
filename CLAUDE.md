@@ -19,7 +19,7 @@ src/resources.js  Resource/action manifest. Mirrors the SDK's manifest.
 src/args.js       Generic flag parser → query/body (nesting, arrays, coercion).
 src/client.js     axios client + response/error normalization (matches the SDK).
 src/errors.js     VentiPayError hierarchy + mapping to exit codes.
-src/config.js     API key / connection resolution and store under ~/.config/ventipay.
+src/config.js     API key / connection resolution and store under ~/.ventipay.
 src/output.js     Result rendering (pretty/compact/table/raw/quiet) and errors to stderr.
 src/table.js      Dependency-free table renderer for --output table (TTY-aware colors).
 src/help.js       Dynamic help + `venti schema` (manifest as JSON for agents).
