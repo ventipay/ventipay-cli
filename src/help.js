@@ -22,8 +22,10 @@ function signature(resourceName, method) {
 
 const GLOBAL_OPTIONS = `Global options:
   --api-key <key>           API key (or set VENTIPAY_API_KEY / 'venti config set api_key')
-  -o, --output <mode>       Output format: pretty (default), compact, raw
+  -o, --output <mode>       Output format: pretty (default), compact, table, raw
       --compact             Alias for --output compact (single-line JSON)
+      --table               Alias for --output table (human-friendly table)
+      --no-color            Disable colors in table output (also honors NO_COLOR)
   -q, --quiet               Print only the 'id' field of the result
       --raw-strings         Do not auto-convert values to number/boolean
   -d, --data <json>         Request body as JSON ('@file.json' to read from a file, '@-' for stdin)

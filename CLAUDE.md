@@ -20,7 +20,8 @@ src/args.js       Generic flag parser → query/body (nesting, arrays, coercion)
 src/client.js     axios client + response/error normalization (matches the SDK).
 src/errors.js     VentiPayError hierarchy + mapping to exit codes.
 src/config.js     API key / connection resolution and store under ~/.config/ventipay.
-src/output.js     Result rendering (pretty/compact/raw/quiet) and errors to stderr.
+src/output.js     Result rendering (pretty/compact/table/raw/quiet) and errors to stderr.
+src/table.js      Dependency-free table renderer for --output table (TTY-aware colors).
 src/help.js       Dynamic help + `venti schema` (manifest as JSON for agents).
 ```
 
@@ -36,7 +37,9 @@ endpoint even if it is not mapped here.
 ## Design conventions
 
 - **JSON-first**: JSON output by default; errors as JSON on `stderr`; stable exit
-  codes (see README). Designed for humans and agents alike.
+  codes (see README). Designed for humans and agents alike. `--output table` is a
+  human-only view; colors are emitted only on a TTY (never when piped) and honor
+  `NO_COLOR`/`FORCE_COLOR`/`--no-color`. Errors stay JSON regardless of mode.
 - **Never block**: stdin is only read explicitly (`--data @-` / `--file -`). Do
   not auto-read stdin: in non-interactive contexts (CI, agents) it would hang.
 - **Action types** (`type` in the manifest) define the signature:

@@ -94,8 +94,10 @@ By default the CLI prints **pretty-printed JSON** to `stdout`. Errors are printe
 
 | Flag | Effect |
 | ---- | ------ |
-| `-o, --output <pretty\|compact\|raw>` | Output format (`pretty` by default) |
+| `-o, --output <pretty\|compact\|table\|raw>` | Output format (`pretty` by default) |
 | `--compact` | Alias for `--output compact` (single-line JSON) |
+| `--table` | Alias for `--output table` (human-friendly table) |
+| `--no-color` | Disable colors in table output (also honors `NO_COLOR`) |
 | `-q, --quiet` | Print only the `id` field of the result |
 
 ```bash
@@ -103,6 +105,24 @@ By default the CLI prints **pretty-printed JSON** to `stdout`. Errors are printe
 ID=$(venti checkouts create --amount 1000 --currency CLP --quiet)
 venti payments list --compact | jq '.data[].id'
 ```
+
+### Table output
+
+`--table` (or `-o table`) renders a readable, aligned table — great when scanning results in the terminal. A list becomes one row per item; a single resource becomes a field/value table. Colors are added automatically on an interactive terminal (booleans, numbers, null) and are **always disabled when the output is piped**, so JSON stays the right choice for scripts and agents.
+
+```bash
+venti payments list --limit 10 --table
+```
+
+```
+id        object   status    amount  currency     created  metadata
+────────  ───────  ────────  ──────  ────────  ──────────  ───────────────────
+pay_1AbC  payment  paid       19990  CLP       1717200000  {"order_id":"A-12"}
+pay_2XyZ  payment  pending     5000  CLP       1717210000  {}
+3 rows  ·  +1 more column (use --output json)  ·  has_more: true
+```
+
+Wide results drop trailing columns to fit the terminal and note how many were hidden; nested values are compacted. For the complete data, use the default JSON output.
 
 ### Exit codes
 

@@ -24,6 +24,8 @@ const GLOBAL_FLAGS = {
   file: 'value',
   quiet: 'boolean',
   compact: 'boolean',
+  table: 'boolean',
+  'no-color': 'boolean',
   'raw-strings': 'boolean',
   help: 'boolean',
   version: 'boolean',

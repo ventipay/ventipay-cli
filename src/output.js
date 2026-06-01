@@ -2,13 +2,25 @@
  * Rendering of results and errors.
  *
  * By default prints pretty-printed JSON (valid and easy to parse for both humans
- * and agents). Modes via --output / --compact / --quiet.
+ * and agents). Modes via --output / --compact / --quiet / --table.
  */
+const table = require('./table');
 
 function resolveMode(global = {}) {
   if (global.quiet) return 'quiet';
   if (global.compact) return 'compact';
+  if (global.table) return 'table';
   return global.output || 'pretty';
+}
+
+/**
+ * Colors are on only for an interactive terminal, never when piped (so JSON/table
+ * output stays clean). Honors NO_COLOR / FORCE_COLOR and the --no-color flag.
+ */
+function colorsEnabled(global = {}) {
+  if (global['no-color'] || process.env.NO_COLOR) return false;
+  if (process.env.FORCE_COLOR) return true;
+  return !!(process.stdout && process.stdout.isTTY);
 }
 
 function render(result, global = {}) {
@@ -17,6 +29,9 @@ function render(result, global = {}) {
   if (mode === 'quiet') {
     if (result && typeof result === 'object' && 'id' in result) return String(result.id);
     return typeof result === 'string' ? result : JSON.stringify(result);
+  }
+  if (mode === 'table') {
+    return table.renderTable(result, { color: colorsEnabled(global) });
   }
   if (mode === 'raw' && typeof result === 'string') {
     return result;
