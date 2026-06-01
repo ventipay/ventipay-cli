@@ -22,6 +22,8 @@ const GLOBAL_FLAGS = {
   'idempotency-key': 'value',
   data: 'value',
   file: 'value',
+  all: 'boolean',
+  max: 'value',
   quiet: 'boolean',
   compact: 'boolean',
   table: 'boolean',

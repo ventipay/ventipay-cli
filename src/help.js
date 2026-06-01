@@ -26,6 +26,8 @@ const GLOBAL_OPTIONS = `Global options:
       --compact             Alias for --output compact (single-line JSON)
       --table               Alias for --output table (human-friendly table)
       --no-color            Disable colors in table output (also honors NO_COLOR)
+      --all                 Auto-paginate list results into a single merged list
+      --max <n>             With --all, stop after collecting n items
   -q, --quiet               Print only the 'id' field of the result
       --raw-strings         Do not auto-convert values to number/boolean
   -d, --data <json>         Request body as JSON ('@file.json' to read from a file, '@-' for stdin)

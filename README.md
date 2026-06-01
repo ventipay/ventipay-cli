@@ -139,6 +139,33 @@ Wide results drop trailing columns to fit the terminal and note how many were hi
 | `9` | Rate limit exceeded |
 | `64` | CLI usage error (invalid arguments) |
 
+## Pagination
+
+List endpoints are cursor-paginated: a response returns up to `limit` items (1–200, default 10) plus a `next_cursor` and `previous_cursor`.
+
+The easy way — **`--all`** follows the cursors for you and returns a single merged list, so you don't have to thread cursors between calls:
+
+```bash
+venti payments list --all                    # every payment, merged into one list
+venti payments list --all --status paid      # filters apply across all pages
+venti payments list --all --max 500          # stop after 500 items
+venti payments list --all --table            # combine with any output mode
+venti api get payments --all                 # also works on the raw API command
+```
+
+With `--all`, the page size defaults to the maximum (200) unless you set `--limit`, and the result's `has_more`/`next_cursor` reflect whether more items remain (e.g. when `--max` stops it early).
+
+The manual way — pass the cursors yourself (the params map directly to the API):
+
+```bash
+# First page
+venti payments list --limit 50
+# Next page: use next_cursor from the previous response
+venti payments list --limit 50 --starting_after <next_cursor>
+# Previous page: use previous_cursor
+venti payments list --limit 50 --ending_before <previous_cursor>
+```
+
 ## Idempotency
 
 To safely retry write operations, pass an idempotency key:

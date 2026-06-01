@@ -71,6 +71,23 @@ async function resolveBaseBody(global) {
   return {};
 }
 
+function parseMax(global) {
+  if (global.max === undefined) return undefined;
+  const n = Number(global.max);
+  if (!Number.isInteger(n) || n <= 0) {
+    throw new UsageError(`--max must be a positive integer (got "${global.max}").`);
+  }
+  return n;
+}
+
+// When auto-paginating, request the largest page size to minimize round-trips,
+// unless the caller pinned a specific --limit.
+function withPageLimit(params) {
+  const next = { ...(params || {}) };
+  if (!('limit' in next)) next.limit = 200;
+  return next;
+}
+
 function makeClient(global) {
   const apiKey = config.resolveApiKey(global);
   if (!apiKey) {
@@ -134,7 +151,16 @@ async function runResourceCommand(resourceName, positionals, params, global) {
   }
 
   const { http } = makeClient(global);
-  const result = await client.request(http, requestConfig);
+  let result;
+  if (global.all) {
+    if (method.type !== 'retrieveAll') {
+      throw new UsageError(`--all only applies to list actions (got "${resource.name} ${method.name}").`);
+    }
+    requestConfig.params = withPageLimit(requestConfig.params);
+    result = await client.requestAll(http, requestConfig, { max: parseMax(global) });
+  } else {
+    result = await client.request(http, requestConfig);
+  }
   output.print(result, global);
   return 0;
 }
@@ -157,7 +183,14 @@ async function runApiCommand(positionals, params, global) {
   }
 
   const { http } = makeClient(global);
-  const result = await client.request(http, requestConfig);
+  let result;
+  if (global.all) {
+    if (httpMethod !== 'get') throw new UsageError('--all only applies to GET requests.');
+    requestConfig.params = withPageLimit(requestConfig.params);
+    result = await client.requestAll(http, requestConfig, { max: parseMax(global) });
+  } else {
+    result = await client.request(http, requestConfig);
+  }
   output.print(result, global);
   return 0;
 }

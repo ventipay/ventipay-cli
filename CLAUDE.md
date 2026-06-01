@@ -45,6 +45,10 @@ endpoint even if it is not mapped here.
 - **Action types** (`type` in the manifest) define the signature:
   `retrieveOne`/`update`/`delete` take a positional `<id>`; `create`/`update`/`delete`
   send a body; `retrieveOne`/`retrieveAll` send query params.
+- **Pagination**: the API is cursor-based (`limit`, `starting_after`, `ending_before`
+  in; `next_cursor`/`previous_cursor` out). `--all` (in `client.requestAll`) follows
+  `next_cursor` → `starting_after` and merges pages into one list; `--max` caps total
+  items; a page-count safety cap prevents unbounded loops. Only valid on list/GET.
 - **Coercion**: `args.coerceValue` converts numbers/booleans/null unless
   `--raw-strings`. It does not coerce numbers with leading zeros (ids).
 
