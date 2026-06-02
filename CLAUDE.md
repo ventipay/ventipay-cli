@@ -22,6 +22,8 @@ src/errors.js     VentiPayError hierarchy + mapping to exit codes.
 src/config.js     API key / connection resolution and store under ~/.ventipay.
 src/output.js     Result rendering (pretty/compact/table/raw/quiet) and errors to stderr.
 src/table.js      Dependency-free table renderer for --output table (TTY-aware colors).
+src/listen.js     `venti listen`: polls events and forwards them to a local URL.
+src/signature.js  Webhook HMAC signing (matches the API) for forwarded events.
 src/help.js       Dynamic help + `venti schema` (manifest as JSON for agents).
 ```
 
@@ -51,6 +53,12 @@ endpoint even if it is not mapped here.
   items; a page-count safety cap prevents unbounded loops. Only valid on list/GET.
 - **Coercion**: `args.coerceValue` converts numbers/booleans/null unless
   `--raw-strings`. It does not coerce numbers with leading zeros (ids).
+- **`venti listen`**: polling-based (reads `GET /events` with `created_after`),
+  so it needs no backend/infra and stays axios-only. Its options are read from
+  `params` (not `GLOBAL_FLAGS`) to avoid clashing with API params like `events`.
+  Forwarded events are signed in `signature.js` with the API's exact HMAC scheme
+  (`venti-signature: t=,v1=`). The transport is intentionally swappable: only the
+  event source would change if we move to SSE/WebSocket later.
 
 ## Development
 

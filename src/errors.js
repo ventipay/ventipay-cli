@@ -82,8 +82,17 @@ class VentiPayUnknownError extends VentiPayError {
   constructor(...params) { super(...params); this.exitCode = 2; }
 }
 
+// CLI usage error (invalid arguments), distinct from an API error.
+class VentiPayUsageError extends VentiPayError {
+  constructor(message) {
+    super(message, { type: 'cli_usage_error' });
+    this.exitCode = 64;
+  }
+}
+
 module.exports.generate = VentiPayError.generate;
 module.exports.VentiPayError = VentiPayError;
+module.exports.VentiPayUsageError = VentiPayUsageError;
 module.exports.VentiPayAuthError = VentiPayAuthError;
 module.exports.VentiPayChargeError = VentiPayChargeError;
 module.exports.VentiPayNotFoundError = VentiPayNotFoundError;

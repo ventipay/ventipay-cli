@@ -6,23 +6,17 @@ const client = require('./client');
 const output = require('./output');
 const help = require('./help');
 const { parseArgs, buildObject } = require('./args');
-const { VentiPayError } = require('./errors');
+const { VentiPayError, VentiPayUsageError } = require('./errors');
+const listen = require('./listen');
 
 const VERSION = require('../package.json').version;
 
 const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
 const ID_TYPES = ['retrieveOne', 'update', 'delete'];
 const BODY_TYPES = ['create', 'update', 'delete'];
-const EX_USAGE = 64;
 
-/** CLI usage error (invalid arguments), distinct from an API error. */
-class UsageError extends VentiPayError {
-  constructor(message) {
-    super(message, { type: 'cli_usage_error' });
-    this.name = 'VentiPayUsageError';
-    this.exitCode = EX_USAGE;
-  }
-}
+// Alias so the existing `new UsageError(...)` call sites keep working.
+const UsageError = VentiPayUsageError;
 
 function findResource(name) {
   return resources.find((r) => r.name === name);
@@ -277,6 +271,13 @@ async function run(argv) {
       return 0;
     }
     return runApiCommand(positionals, params, global);
+  }
+  if (command === 'listen') {
+    if (global.help) {
+      console.log(help.listenHelp());
+      return 0;
+    }
+    return listen.run(positionals, params, global);
   }
 
   return runResourceCommand(command, positionals, params, global);

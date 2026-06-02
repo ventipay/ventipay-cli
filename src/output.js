@@ -68,4 +68,6 @@ function printError(err, global = {}) {
   process.stderr.write(`${text}\n`);
 }
 
-module.exports = { render, print, printError };
+module.exports = {
+  render, print, printError, colorsEnabled,
+};

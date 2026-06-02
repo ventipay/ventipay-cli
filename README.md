@@ -186,6 +186,38 @@ venti api post checkouts --amount 1000 --currency CLP
 
 For `GET` the params are sent as the query string; otherwise as the body.
 
+## Local webhooks (`venti listen`)
+
+Receive your account's webhook events on your machine while developing — no public URL or tunnel needed. `venti listen` watches your events (test or live, based on your API key) and forwards each one to a local URL:
+
+```bash
+venti listen --forward-to http://localhost:3000/webhook
+```
+
+On start it prints a per-session **signing secret**. Each forwarded request is signed with the same scheme Venti uses in production (the `venti-signature` header, `t=<timestamp>,v1=<hmac>`), so your existing signature-verification code works locally — just point it at the printed secret.
+
+```bash
+# Only forward specific event types
+venti listen --forward-to http://localhost:3000/webhook --events payment.created,payment.refunded
+
+# Just watch events without forwarding
+venti listen
+
+# Replay events created since a timestamp
+venti listen --forward-to http://localhost:3000/webhook --since 2026-01-01T00:00:00Z
+```
+
+| Flag | Effect |
+| ---- | ------ |
+| `--forward-to <url>` | POST each event to this local URL. Omit to only print events. |
+| `--events <types>` | Comma-separated event types to forward (default: all). |
+| `--poll-interval <sec>` | Seconds between checks (default `2`). |
+| `--since <timestamp>` | Replay events created at/after an ISO timestamp. |
+| `--print` | Print full event JSON (default: one summary line per event). |
+| `--skip-verify` | Skip TLS verification of the local target (self-signed HTTPS). |
+
+On a terminal you get a colored summary line per event; when piped, events are emitted as newline-delimited JSON (one event per line) so they're easy to process. Press Ctrl+C to stop. Latency is roughly the poll interval (~1–2s).
+
 ## Introspection (for agents)
 
 `venti schema` prints the full command manifest as JSON: resources, actions, HTTP method, path, whether they take an id and whether they send a body. Ideal for an agent to discover the CLI's capabilities without parsing help text.

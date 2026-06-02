@@ -189,6 +189,40 @@ venti api post checkouts --amount 1000 --currency CLP
 
 En `GET` los parámetros van como query; en el resto, como body.
 
+# Recibir webhooks localmente
+
+`venti listen` te permite recibir los webhooks de tu cuenta en tu máquina mientras desarrollas, sin exponer una URL pública ni usar un túnel. Observa los eventos de tu cuenta (test o live, según tu API Key) y reenvía cada uno a una URL local:
+
+```bash
+venti listen --forward-to http://localhost:3000/webhook
+```
+
+Al iniciar imprime un **secreto de firma** para la sesión. Cada solicitud reenviada se firma con el mismo esquema que Venti usa en producción (header `venti-signature`, formato `t=<timestamp>,v1=<hmac>`), de modo que tu código de verificación de firma funciona localmente — solo configúralo con el secreto impreso.
+
+```bash
+# Reenviar solo ciertos tipos de evento
+venti listen --forward-to http://localhost:3000/webhook --events payment.created,payment.refunded
+
+# Solo observar eventos sin reenviarlos
+venti listen
+
+# Reenviar eventos creados desde una fecha
+venti listen --forward-to http://localhost:3000/webhook --since 2026-01-01T00:00:00Z
+```
+
+| Flag | Efecto |
+| ---- | ------ |
+| `--forward-to <url>` | Hace `POST` de cada evento a esta URL local. Omítela para solo imprimir. |
+| `--events <tipos>` | Tipos de evento a reenviar, separados por coma (por defecto: todos). |
+| `--poll-interval <seg>` | Segundos entre consultas (por defecto `2`). |
+| `--since <timestamp>` | Reenvía eventos creados desde un timestamp ISO. |
+| `--print` | Imprime el JSON completo del evento (por defecto: una línea por evento). |
+| `--skip-verify` | Omite la verificación TLS del destino local (HTTPS autofirmado). |
+
+> 📘 Salida y latencia
+>
+> En una terminal verás una línea de resumen por evento; al redirigir la salida (pipe), los eventos se emiten como JSON por línea (uno por línea), fácil de procesar. La latencia es aproximadamente el intervalo de consulta (~1–2s). Presiona Ctrl+C para detener.
+
 # Introspección (para agentes)
 
 `venti schema` imprime el manifiesto completo de comandos en JSON: recursos, acciones, método HTTP, ruta, si requieren `id` y si envían body. Ideal para que un agente descubra las capacidades del CLI sin parsear texto de ayuda.

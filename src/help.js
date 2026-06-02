@@ -58,6 +58,7 @@ function mainHelp() {
 Usage:
   venti <resource> <action> [id] [--params]
   venti api <method> <path> [--params]       Direct request to any endpoint
+  venti listen [--forward-to <url>]          Stream webhook events to your machine
   venti config <set|get|list|path>           Manage local configuration
   venti schema                               Command manifest as JSON (for agents)
   venti <resource> --help                    Actions for a resource
@@ -68,6 +69,7 @@ Examples:
   venti checkouts retrieve chk_123 --expand customer
   echo '{"amount":1000}' | venti checkouts create --data @-
   venti api get balance
+  venti listen --forward-to http://localhost:3000/webhook
 
 Available resources:
 ${resourceLines}
@@ -102,6 +104,34 @@ ${note}
 Documentation: ${docsUrl(resource.name)}`;
 }
 
+function listenHelp() {
+  return `venti listen [--forward-to <url>] [options]
+
+Streams your account's webhook events to this machine in real time — no public
+URL or tunnel needed. Events are read with your API key (test or live, by key
+prefix). With --forward-to, each event is POSTed to your local URL signed with
+the same scheme Venti uses in production, so your signature verification works
+locally. Without it, events are just printed. Press Ctrl+C to stop.
+
+Options:
+  --forward-to <url>     POST each event to this local URL (e.g. http://localhost:3000/webhook)
+  --events <types>       Only these event types (comma-separated), e.g. payment.created,payment.refunded
+  --poll-interval <sec>  Seconds between checks (default 2)
+  --since <timestamp>    Replay events created at/after this ISO timestamp
+  --print                Print full event JSON (default: a summary line per event)
+  --skip-verify          Skip TLS verification of the local --forward-to target
+
+Output: a summary line per event on a terminal; newline-delimited JSON when piped.
+The forward target and per-session signing secret are printed to stderr at start.
+
+Examples:
+  venti listen --forward-to http://localhost:3000/webhook
+  venti listen --events payment.created,payment.refunded
+  venti listen --forward-to http://localhost:3000/webhook --since 2026-01-01T00:00:00Z
+
+Documentation: https://docs.ventipay.com/`;
+}
+
 /**
  * Full manifest as an object, intended for agent introspection.
  */
@@ -129,6 +159,7 @@ module.exports = {
   mainHelp,
   resourceHelp,
   actionHelp,
+  listenHelp,
   signature,
   schema,
   docsUrl,
