@@ -1,6 +1,6 @@
 # Venti CLI — maintainer notes
 
-A CLI that wraps the Venti REST API. It is the command-line counterpart of the
+A CLI that wraps the Venti API. It is the command-line counterpart of the
 [official Node.js SDK](https://github.com/ventipay/ventipay-node): same
 manifest-driven design, same error hierarchy, same single dependency (`axios`).
 CommonJS, `airbnb-base` style.

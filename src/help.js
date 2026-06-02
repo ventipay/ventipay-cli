@@ -53,7 +53,7 @@ function mainHelp() {
     return `  ${group}:\n${items}`;
   }).join('\n\n');
 
-  return `Venti CLI v${VERSION} — access the Venti REST API from the command line.
+  return `Venti CLI v${VERSION} — access your Venti resources from the command line.
 
 Usage:
   venti <resource> <action> [id] [--params]

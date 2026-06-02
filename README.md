@@ -1,6 +1,6 @@
 # Venti CLI
 
-The official Venti CLI to access the [REST API](https://docs.ventipay.com/) from the command line.
+The official Venti CLI to access your resources from the command line — see the [Venti docs](https://docs.ventipay.com/) for the full reference.
 
 Like our [Node.js SDK](https://github.com/ventipay/ventipay-node), it is a thin wrapper: there is one command per API resource and one subaction per API action. If you know the API, you know the CLI. It is designed to be convenient for both people and **AI agents** (JSON output, predictable exit codes, introspection via `venti schema`).
 

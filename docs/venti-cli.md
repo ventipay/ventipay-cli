@@ -1,10 +1,10 @@
 ---
 title: "Venti CLI"
-excerpt: "Accede a la API REST de Venti desde la línea de comandos."
+excerpt: "Accede a tus recursos de Venti desde la línea de comandos."
 category: ""
 ---
 
-El **Venti CLI** es un envoltorio liviano sobre la [API REST de Venti](https://docs.ventipay.com/) que te permite operar desde la terminal. Al igual que el [SDK de Node.js](https://github.com/ventipay/ventipay-node), hay un comando por recurso y una subacción por acción de la API: si conoces la API, ya sabes usar el CLI.
+El **Venti CLI** es un envoltorio liviano sobre la [API de Venti](https://docs.ventipay.com/) que te permite operar desde la terminal. Al igual que el [SDK de Node.js](https://github.com/ventipay/ventipay-node), hay un comando por recurso y una subacción por acción de la API: si conoces la API, ya sabes usar el CLI.
 
 Está pensado para personas **y agentes de IA**: salida JSON por defecto, códigos de salida estables y un manifiesto de comandos consultable con `venti schema`.
 
