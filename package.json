@@ -6,7 +6,10 @@
     "venti": "bin/venti.js"
   },
   "main": "src/cli.js",
-  "repository": "https://github.com/ventipay/ventipay-cli.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventipay/ventipay-cli.git"
+  },
   "homepage": "https://ventipay.com/",
   "bugs": {
     "url": "https://github.com/ventipay/ventipay-cli/issues"
