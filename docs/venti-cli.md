@@ -265,75 +265,17 @@ El CLI usa códigos de salida estables para facilitar su orquestación desde scr
 | `9` | Límite de tasa excedido |
 | `64` | Error de uso del CLI (argumentos inválidos) |
 
-# Listado de recursos
+# Recursos disponibles
 
-Usa `venti <recurso> --help` para ver la firma de cada acción.
+Hay un comando por cada recurso de la API y una subacción por cada acción. La lista completa y siempre actualizada la entrega el propio CLI:
 
-## Pagos
-| Recurso | Acciones |
-| ------ | ------ |
-| [checkouts](https://docs.ventipay.com/reference/checkouts) | `retrieve`, `list`, `create`, `refund`, `cancel` |
-| [payments](https://docs.ventipay.com/reference/payments) | `retrieve`, `list`, `create`, `update`, `authorize`, `capture`, `refund`, `cancel` |
-| [refunds](https://docs.ventipay.com/reference/refunds) | `retrieve`, `list` |
-| [payment_buttons](https://docs.ventipay.com/reference/payment_buttons) | `retrieve`, `list`, `create`, `update` |
-| [coupons](https://docs.ventipay.com/reference/coupons) | `retrieve`, `list`, `create`, `update` |
+```shell
+venti --help              # todos los recursos
+venti <recurso> --help    # acciones de un recurso y su firma
+venti schema              # manifiesto completo en JSON (para agentes)
+```
 
-## Suscripciones
-| Recurso | Acciones |
-| ------ | ------ |
-| [subscriptions](https://docs.ventipay.com/reference/subscriptions) | `retrieve`, `list`, `create`, `update`, `start`, `end`, `suspend`, `unsuspend` |
-| [invoices](https://docs.ventipay.com/reference/invoices) | `retrieve`, `list`, `create`, `update`, `finalize`, `markUncollectible`, `void`, `pay`, `send` |
-| [plans](https://docs.ventipay.com/reference/plans) | `retrieve`, `list`, `create`, `update`, `subscribe` |
-| [products](https://docs.ventipay.com/reference/products) | `retrieve`, `list`, `create`, `update` |
-| [tax_rates](https://docs.ventipay.com/reference/tax_rates) | `retrieve`, `list`, `create`, `update` |
-
-## Clientes
-| Recurso | Acciones |
-| ------ | ------ |
-| [customers](https://docs.ventipay.com/reference/customers) | `retrieve`, `list`, `create`, `update`, `paymentMethods` |
-| [mandates](https://docs.ventipay.com/reference/mandates) | `retrieve`, `list` |
-
-## Métodos de pago
-| Recurso | Acciones |
-| ------ | ------ |
-| [payment_methods](https://docs.ventipay.com/reference/payment_methods) | `retrieve`, `list`, `del` |
-| [setup_intents](https://docs.ventipay.com/reference/setup_intents) | `retrieve`, `list`, `create`, `update`, `del`, `cancel` |
-
-## Préstamos
-| Recurso | Acciones |
-| ------ | ------ |
-| [loans](https://docs.ventipay.com/reference/loans) | `retrieve`, `list`, `create`, `authorize`, `refund` |
-| [installments](https://docs.ventipay.com/reference/installments) | `retrieve`, `authorize` |
-
-## Finanzas
-| Recurso | Acciones |
-| ------ | ------ |
-| [balance](https://docs.ventipay.com/reference/balance) | `retrieve`, `overview` |
-| [balance_transactions](https://docs.ventipay.com/reference/balance_transactions) | `retrieve`, `list` |
-| [payouts](https://docs.ventipay.com/reference/payouts) | `retrieve`, `list` |
-| [bank_accounts](https://docs.ventipay.com/reference/bank_accounts) | `retrieve`, `list`, `create`, `del` |
-
-## Disputas
-| Recurso | Acciones |
-| ------ | ------ |
-| [disputes](https://docs.ventipay.com/reference/disputes) | `retrieve`, `list`, `upload`, `confirm` |
-
-## Eventos
-| Recurso | Acciones |
-| ------ | ------ |
-| [events](https://docs.ventipay.com/reference/events) | `retrieve`, `list` |
-
-## Webhooks
-| Recurso | Acciones |
-| ------ | ------ |
-| [webhooks](https://docs.ventipay.com/reference/webhooks) | `retrieve`, `list`, `create`, `del` |
-| [webhook_attempts](https://docs.ventipay.com/reference/webhook_attempts) | `list` |
-
-## Otros
-| Recurso | Acciones |
-| ------ | ------ |
-| [banks](https://docs.ventipay.com/reference/banks) | `list` |
-| [currencies](https://docs.ventipay.com/reference/currencies) | `list` |
+Cada recurso corresponde a un objeto de la [Referencia de API](https://docs.ventipay.com/reference). Si un endpoint aún no está mapeado como recurso, puedes alcanzarlo con el comando directo `venti api <método> <ruta>`.
 
 > 📘 `disputes upload`
 >

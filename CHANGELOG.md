@@ -5,6 +5,14 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Treasury resources: `programs`, `financial_accounts`, `account_entries`, `statements` (mapping the `/programs`, `/financial_accounts`, `/account_entries`, `/statements` endpoints and the `…/repayment_checkouts` sub-actions).
+
+### Changed
+- The README and `docs/venti-cli.md` no longer enumerate every resource. They now point to `venti --help`, `venti <resource> --help` and `venti schema` (always current) plus the API reference — the resource manifest (`src/resources.js`) stays the single source of truth.
+
 ## [1.3.0] - 2026-06-02
 
 ### Added
