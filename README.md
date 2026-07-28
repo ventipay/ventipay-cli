@@ -241,73 +241,15 @@ You can also point to another host with `--host` / `--base-path`, or the `VENTIP
 
 ## Resource list
 
-Groups mirror the [API reference](https://docs.ventipay.com/). Use `venti <resource> --help` to see each action's signature.
+There is one command per API resource and one sub-action per API action. For the complete, always-current list, ask the CLI itself:
 
-### Payments
-| Resource | Actions |
-| ------ | ------ |
-| [checkouts](https://docs.ventipay.com/reference/checkouts) | `retrieve`, `list`, `create`, `refund`, `cancel` |
-| [payments](https://docs.ventipay.com/reference/payments) | `retrieve`, `list`, `create`, `update`, `authorize`, `capture`, `refund`, `cancel` |
-| [refunds](https://docs.ventipay.com/reference/refunds) | `retrieve`, `list` |
-| [payment_buttons](https://docs.ventipay.com/reference/payment_buttons) | `retrieve`, `list`, `create`, `update` |
-| [coupons](https://docs.ventipay.com/reference/coupons) | `retrieve`, `list`, `create`, `update` |
+```shell
+venti --help              # all resources
+venti <resource> --help   # a resource's actions and their signatures
+venti schema              # full manifest as JSON (for agents)
+```
 
-### Subscriptions
-| Resource | Actions |
-| ------ | ------ |
-| [subscriptions](https://docs.ventipay.com/reference/subscriptions) | `retrieve`, `list`, `create`, `update`, `start`, `end`, `suspend`, `unsuspend` |
-| [invoices](https://docs.ventipay.com/reference/invoices) | `retrieve`, `list`, `create`, `update`, `finalize`, `markUncollectible`, `void`, `pay`, `send` |
-| [plans](https://docs.ventipay.com/reference/plans) | `retrieve`, `list`, `create`, `update`, `subscribe` |
-| [products](https://docs.ventipay.com/reference/products) | `retrieve`, `list`, `create`, `update` |
-| [tax_rates](https://docs.ventipay.com/reference/tax_rates) | `retrieve`, `list`, `create`, `update` |
-
-### Customers
-| Resource | Actions |
-| ------ | ------ |
-| [customers](https://docs.ventipay.com/reference/customers) | `retrieve`, `list`, `create`, `update`, `paymentMethods` |
-| [mandates](https://docs.ventipay.com/reference/mandates) | `retrieve`, `list` |
-
-### Payment methods
-| Resource | Actions |
-| ------ | ------ |
-| [payment_methods](https://docs.ventipay.com/reference/payment_methods) | `retrieve`, `list`, `del` |
-| [setup_intents](https://docs.ventipay.com/reference/setup_intents) | `retrieve`, `list`, `create`, `update`, `del`, `cancel` |
-
-### Loans
-| Resource | Actions |
-| ------ | ------ |
-| [loans](https://docs.ventipay.com/reference/loans) | `retrieve`, `list`, `create`, `authorize`, `refund` |
-| [installments](https://docs.ventipay.com/reference/installments) | `retrieve`, `authorize` |
-
-### Finance
-| Resource | Actions |
-| ------ | ------ |
-| [balance](https://docs.ventipay.com/reference/balance) | `retrieve`, `overview` |
-| [balance_transactions](https://docs.ventipay.com/reference/balance_transactions) | `retrieve`, `list` |
-| [payouts](https://docs.ventipay.com/reference/payouts) | `retrieve`, `list` |
-| [bank_accounts](https://docs.ventipay.com/reference/bank_accounts) | `retrieve`, `list`, `create`, `del` |
-
-### Disputes
-| Resource | Actions |
-| ------ | ------ |
-| [disputes](https://docs.ventipay.com/reference/disputes) | `retrieve`, `list`, `upload`, `confirm` |
-
-### Events
-| Resource | Actions |
-| ------ | ------ |
-| [events](https://docs.ventipay.com/reference/events) | `retrieve`, `list` |
-
-### Webhooks
-| Resource | Actions |
-| ------ | ------ |
-| [webhooks](https://docs.ventipay.com/reference/webhooks) | `retrieve`, `list`, `create`, `del` |
-| [webhook_attempts](https://docs.ventipay.com/reference/webhook_attempts) | `list` |
-
-### Other
-| Resource | Actions |
-| ------ | ------ |
-| [banks](https://docs.ventipay.com/reference/banks) | `list` |
-| [currencies](https://docs.ventipay.com/reference/currencies) | `list` |
+Each resource maps to an object in the [API reference](https://docs.ventipay.com/reference). Endpoints not yet mapped as a resource are still reachable via `venti api <method> <path>`.
 
 > Note: `disputes upload` expects `multipart/form-data` (file upload), which this CLI does not build yet; use `venti api post disputes/<id>/upload` or the Dashboard for that case.
 
